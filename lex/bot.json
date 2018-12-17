@@ -1,0 +1,209 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "DolceGusto",
+    "version": "1",
+    "intents": [
+      {
+        "name": "Hi",
+        "version": "7",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "Hi",
+          "Hello",
+          "How are you",
+          "Clau",
+          "Hi Clau",
+          "Hello Clau"
+        ],
+        "slots": [],
+        "conclusionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Hi, my name is Clau. To earn some espresso, tea or cappuccino please answer this little survey! What's your gender identity?",
+              "groupNumber": 1
+            }
+          ]
+        }
+      },
+      {
+        "rejectionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Ok! Your order won't be placed."
+            }
+          ]
+        },
+        "name": "CoffeOrder",
+        "version": "21",
+        "fulfillmentActivity": {
+          "type": "CodeHook",
+          "codeHook": {
+            "uri": "<<LAMBDA ARN>>",
+            "messageVersion": "1.0"
+          }
+        },
+        "sampleUtterances": [
+          "I would like to have a coffee",
+          "I would like to order {drink}",
+          "{drink}",
+          "May I have a {drink}",
+          "I would like to have {drink}",
+          "coffee",
+          "May I have a coffee",
+          "{gender}"
+        ],
+        "slots": [
+          {
+            "name": "age",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.NUMBER",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "How old are you?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "sampleUtterances": []
+          },
+          {
+            "name": "drink",
+            "slotConstraint": "Required",
+            "slotType": "CoffeeTypes",
+            "slotTypeVersion": "5",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Which drink would you like?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3,
+            "sampleUtterances": []
+          },
+          {
+            "name": "gender",
+            "slotConstraint": "Required",
+            "slotType": "Gender",
+            "slotTypeVersion": "1",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What's your gender identity?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "sampleUtterances": []
+          }
+        ],
+        "confirmationPrompt": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Are you sure you want to order a {drink}?"
+            }
+          ],
+          "maxAttempts": 3
+        },
+        "dialogCodeHook": {
+          "uri": "<<LAMBDA ARN>>",
+          "messageVersion": "1.0"
+        }
+      }
+    ],
+    "slotTypes": [
+      {
+        "description": "Types of Coffee avaiable",
+        "name": "CoffeeTypes",
+        "version": "5",
+        "enumerationValues": [
+          {
+            "value": "tea",
+            "synonyms": [
+              "tea"
+            ]
+          },
+          {
+            "value": "espresso",
+            "synonyms": [
+              "espresso"
+            ]
+          },
+          {
+            "value": "cappuccino",
+            "synonyms": [
+              "cappuccino"
+            ]
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      },
+      {
+        "description": "Gender types",
+        "name": "Gender",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "other",
+            "synonyms": []
+          },
+          {
+            "value": "woman",
+            "synonyms": []
+          },
+          {
+            "value": "man",
+            "synonyms": []
+          },
+          {
+            "value": "female",
+            "synonyms": []
+          },
+          {
+            "value": "male",
+            "synonyms": []
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      }
+    ],
+    "voiceId": "Joanna",
+    "childDirected": false,
+    "locale": "en-US",
+    "idleSessionTTLInSeconds": 60,
+    "clarificationPrompt": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, can you please repeat that?"
+        }
+      ],
+      "maxAttempts": 5
+    },
+    "abortStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, I could not understand. Goodbye."
+        }
+      ]
+    }
+  }
+}
